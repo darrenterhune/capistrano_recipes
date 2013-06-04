@@ -1,0 +1,24 @@
+set daemon 30
+
+set logfile /var/log/monit.log
+set idfile /var/lib/monit/id
+set statefile /var/lib/monit/state
+
+set eventqueue
+  basedir /var/lib/monit/events
+  slots 100
+
+set mailserver localhost port 25
+  with timeout 30 seconds
+
+set alert tech@aircraftsalesandparts.net
+
+set httpd port 2812
+  allow <%= SETUP_CONFIG['monit']['user'] %>:"<%= SETUP_CONFIG['monit']['password'] %>"
+
+check system <%= app_hostname %>
+  if loadavg(5min) > 3 for 3 cycles then alert
+  if memory > 90% for 2 cycles then alert
+  if cpu(user) > 90% for 2 cycles then alert
+
+include /etc/monit/conf.d/*

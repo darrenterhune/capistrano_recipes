@@ -1,0 +1,10 @@
+<% delayed_job_workers.times do |n| %>
+check process delayed_job_<%= n %> with pidfile <%= current_path %>/tmp/pids/delayed_job.<%= n %>.pid
+  start program = "/usr/bin/env RAILS_ENV=<%= rails_env %> <%= current_path %>/script/delayed_job start -n <%= delayed_job_workers %>"
+  stop program = "/usr/bin/env RAILS_ENV=<%= rails_env %> <%= current_path %>/script/delayed_job stop"
+  if cpu > 60% for 2 cycles then alert
+  if cpu > 90% for 5 cycles then restart
+  if totalmem > 200.0 MB for 5 cycles then alert
+  if totalmem > 300.0 MB for 5 cycles then restart
+  if 3 restarts within 5 cycles then timeout
+<% end %>

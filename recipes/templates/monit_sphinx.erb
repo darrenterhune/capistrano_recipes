@@ -1,0 +1,6 @@
+check process searchd with pidfile <%= shared_path %>/pids/searchd.pid
+  start program = "/etc/init.d/searchd start"
+  stop program = "/etc/init.d/searchd stop"
+  if cpu > 50% for 2 cycles then alert
+  if cpu > 50% for 5 cycles then restart
+  if 2 restarts within 10 cycles then timeout

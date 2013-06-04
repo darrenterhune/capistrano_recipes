@@ -1,0 +1,43 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# File: /etc/init.d/searchd
+# Provides:          searchd
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     
+# Default-Stop:      
+# X-Interactive:     true
+# Short-Description: Start/Stop/Restart searchd
+### END INIT INFO
+ 
+EXE="/usr/bin/searchd"
+CONFIG="<%= shared_path %>/config/<%= rails_env %>.sphinx.conf"
+USER='rails'
+ 
+case "$1" in
+ 
+  'start')
+    echo "Starting sphinx.."
+    sudo -u $USER $EXE --pidfile --config $CONFIG
+    ;;
+ 
+  'stop')
+    echo "Stopping sphinx.."
+    sudo -u $USER $EXE --config $CONFIG --stopwait
+    ;;
+ 
+  'status')
+    sudo -u $USER $EXE --config $CONFIG --status
+    ;;
+ 
+  'restart')
+    $0 stop
+    $0 start
+    ;;
+ 
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+    ;;
+ 
+esac
