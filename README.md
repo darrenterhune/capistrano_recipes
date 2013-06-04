@@ -24,5 +24,9 @@ Requirements
 ============
 
 You will need a `/config/setup_config.yml` file which is loaded into `/recipes/base.rb` to keep private stuff out of scm.
+
 You will need a `/config/ssl` directory with certificate files that match `/recipes/config.rb`
-Probably other stuff
+
+You will need a `/config/database.yml` file to work with `/recipes/mysql.rb` or `/recipes/postgresql.rb`
+
+Probably other stuff, not all code is tested or tried!
